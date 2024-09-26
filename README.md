@@ -308,15 +308,6 @@ An input component for entering text.
 
 ---
 
-This detailed format specifies the types for each prop, making it easier for users to understand what data types are expected and how to use your components. Let me know if you need any further changes or additions!
-
-
----
-
-This detailed format specifies the types for each prop, making it easier for users to understand what data types are expected and how to use your components. Let me know if you need any further changes or additions!
-
-
----
 
 ## License
 
