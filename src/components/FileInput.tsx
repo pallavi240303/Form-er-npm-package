@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { cn } from "../utils/tw-merge";
+import useDebounce from "../utils/useDebounce"; // Ensure this path is correct
 
 export interface FileInputProps {
     label: string;
@@ -10,8 +10,6 @@ export interface FileInputProps {
     onInputChange?: (name: string, value: File | null) => void;
     onError?: (name: string, error: string) => void;
     isSubmitted?: boolean;
-    className?: string;
-    style?: React.CSSProperties;
 }
 
 const FileInput: React.FC<FileInputProps> = ({
@@ -23,12 +21,14 @@ const FileInput: React.FC<FileInputProps> = ({
     onInputChange,
     onError = () => {},
     isSubmitted,
-    className = "",
-    style = {},
 }) => {
     const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string>("");
-    const [isUploading, setIsUploading] = useState<boolean>(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const [fileName, setFileName] = useState<string>("");
+
+    // Debounced filename to simulate the delay
+    const debouncedFileName = useDebounce(fileName, 1500); // 1.5 seconds delay
 
     useEffect(() => {
         if (isSubmitted && required && !file) {
@@ -45,15 +45,14 @@ const FileInput: React.FC<FileInputProps> = ({
 
         if (!selectedFile) {
             setFile(null);
+            setFileName("");
             setError("No file selected.");
             onError(name, "No file selected.");
             return;
         }
 
         if (acceptedTypes.length && !acceptedTypes.includes(selectedFile.type)) {
-            setError(
-                `Invalid file type. Accepted: ${acceptedTypes.join(", ")}`
-            );
+            setError(`Invalid file type. Accepted: ${acceptedTypes.join(", ")}`);
             onError(name, `Invalid file type.`);
             return;
         }
@@ -64,72 +63,35 @@ const FileInput: React.FC<FileInputProps> = ({
             return;
         }
 
-        setIsUploading(true);
+        setIsUploading(true); // Indicate file is uploading
         setFile(selectedFile);
+        setFileName(selectedFile.name); // Store the filename for debouncing
         onInputChange?.(name, selectedFile);
 
+        // Set uploading to false after the debounce delay
         setTimeout(() => {
             setIsUploading(false);
-            setError("");
         }, 1500);
     };
 
-    const isImage = file && file.type.startsWith("image/");
-    const fileSizeMB = file ? (file.size / 1024 / 1024).toFixed(2) : "0";
-
     return (
-        <div className="mb-4">
-            <label htmlFor={name} className="block mb-1">
-                {label} {required && <span className="text-red-500">*</span>}
+        <div className="flex flex-col gap-2">
+            <label htmlFor={name}>
+                {label} {required && <span className="text-red-600">*</span>}
             </label>
-            <div
-                className={`relative w-full p-4 border border-dashed rounded-lg transition-colors duration-300 ease-in-out 
-                  ${error ? 'border-red-500' : 'border-gray-300'} 
-                  focus-within:border-blue-500 focus-within:ring focus-within:ring-blue-300 ${className}`}
-              
-                style={style}
-            >
-                <input
-                    id={name}
-                    type="file"
-                    onChange={handleFileChange}
-                    accept={acceptedTypes.join(",")}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                />
-                <div className="text-center">
-                    {file ? (
-                        <>
-                            <div className="text-gray-700">{file.name}</div>
-                            <p className="text-sm text-gray-500">
-                                {fileSizeMB} MB
-                            </p>
-                            {isImage && (
-                                <img
-                                    src={URL.createObjectURL(file)}
-                                    alt={file.name}
-                                    className="mt-2 max-w-full h-auto rounded-md"
-                                />
-                            )}
-                        </>
-                    ) : (
-                        <p className="text-gray-500">No file selected</p>
-                    )}
-                </div>
-            </div>
-
-            {isUploading && (
-                <div className="mt-2">
-                    <div className="relative w-full h-1 overflow-hidden bg-gray-300 rounded-full">
-                        <div
-                            className="absolute h-full bg-blue-500 rounded-full animate-pulse"
-                            style={{ width: "100%" }}
-                        />
-                    </div>
-                    <p className="mt-1 text-sm text-blue-500">Uploading...</p>
-                </div>
-            )}
-
-            {error && <p className="text-red-500">{error}</p>}
+            <input
+                id={name}
+                type="file"
+                onChange={handleFileChange}
+                accept={acceptedTypes.join(",")}
+                className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400
+      file:bg-gray-50 file:border-0
+      file:me-4
+      file:py-3 file:px-4
+      dark:file:bg-neutral-700 dark:file:text-neutral-400"
+            />
+            {isUploading && !debouncedFileName && <div>Uploading...</div>}
+            {debouncedFileName && <div>Selected File: {debouncedFileName}</div>}
         </div>
     );
 };

@@ -44,7 +44,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, children, className = '' }) => {
                 const { name, required, pattern, label } = child.props;
                 const value = formData[name];
 
-                if (required && (!value || value.trim() === "")) {
+                if (required && (!value || value === "")) {
                     newErrors[name] = `${label || name} is required`;
                 } else if (pattern && !pattern.test(value)) {
                     newErrors[name] = `${label || name} is not valid`;

@@ -22,7 +22,7 @@ const Select: React.FC<SelectProps> = ({
 }) => {
     return (
         <div className="mb-4">
-            <label htmlFor={name} className="block mb-2 font-medium text-gray-700">
+            <label htmlFor={name} className="block mb-2 font-bold text-gray-700">
                 {label}
             </label>
             <select
@@ -30,7 +30,7 @@ const Select: React.FC<SelectProps> = ({
                 name={name}
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
-                className={`w-full px-4 py-2 border rounded-lg transition-colors duration-300 ease-in-out 
+                className={`w-full px-4 py-2 border rounded-lg transition-colors duration-300 ease-in-out p-2
                     ${error ? 'border-red-500' : 'border-gray-300'} 
                     focus:border-blue-500 focus:ring focus:ring-blue-300 outline-none ${className}`}
                 
