@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import useDebounce from '../utils/useDebounce';
 import { passwordRequirements, validatePassword } from '../utils/passwordValidation';
+import { cn } from '../utils/tw-merge';
 
-interface PasswordProps {
+export interface PasswordProps {
   name: string;
   label: string;
   hintText: string;
@@ -70,9 +71,13 @@ const PasswordInput: React.FC<PasswordProps> = ({
         value={value}
         onChange={handleChange}
         placeholder={hintText}
-        className={`p-2 border rounded-md transition duration-300 ease-in-out w-full pr-10 ${className} ${
-          allConditionsMet ? 'border-gray-500' : 'border-gray-300 focus:ring-red-400'
-        } focus:border-blue-500 focus:ring focus:ring-blue-200`}
+        className={cn(
+          "p-2 border rounded-md transition duration-300 ease-in-out w-full pr-10",
+          allConditionsMet ? "border-gray-500" : "border-gray-300 focus:ring-red-400",
+          "focus:border-blue-500 focus:ring focus:ring-blue-200",
+          className
+      )}
+      
         onFocus={() => setState(prev => ({ ...prev, isFocused: true }))}
         onBlur={handleBlur}
         required={required}

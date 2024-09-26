@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import useDebounce from '../utils/useDebounce';
 import { validateField, validateEmail, ValidationRules } from '../utils/validation';
+import { cn } from '../utils/tw-merge';
 
-interface EmailInputProps {
+export interface EmailInputProps {
     label: string;
     hintText: string;
     className?: string;
@@ -55,9 +56,13 @@ const EmailInput: React.FC<EmailInputProps> = ({
                     value={inputState.value}
                     onChange={handleChange}
                     placeholder={hintText}
-                    className={`p-2 border rounded-md transition duration-300 ease-in-out ${className} ${
-                        inputState.error ? 'border-red-500 focus:ring focus:ring-red-600' : 'border-gray-500'
-                    } focus:border-blue-500 focus:ring focus:ring-blue-200`}
+                    className={cn(
+                        'p-2 border rounded-md transition duration-300 ease-in-out',
+                        inputState.error ? 'border-red-500 focus:ring focus:ring-red-600' : 'border-gray-500',
+                        'focus:border-blue-500 focus:ring focus:ring-blue-200',
+                        className
+                    )}
+                    
                 />
                 <div>
                     {inputState.error && <span className="text-red-500 text-xs mt-2">{inputState.error}</span>}

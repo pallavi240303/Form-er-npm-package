@@ -1,11 +1,11 @@
 import React from 'react';
-
+import { cn } from '../utils/tw-merge';
 interface CheckboxOption {
   value: string;
   label: string;
 }
 
-interface CheckboxProps {
+export interface CheckboxProps {
   name: string;
   options: CheckboxOption[];
   selectedValues: string[];
@@ -23,7 +23,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   required = false,
 }) => {
   return (
-    <div>
+    <div className={cn("mb-4")}>
       <label className="block mb-2 font-semibold">{label} {required && <span className="text-red-500">*</span>}</label>
       {options.map(option => (
         <div key={option.value}>

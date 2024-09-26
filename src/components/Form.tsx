@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, ReactElement, useCallback, ReactNode } from "react";
+import { cn } from "../utils/tw-merge";
 
-interface FormProps {
+export interface FormProps {
     onSubmit: (data: Record<string, any>) => void;
     children: ReactNode;
     className?: string;
@@ -60,7 +61,12 @@ const Form: React.FC<FormProps> = ({ onSubmit, children, className = '' }) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit} className={`flex flex-col justify-center items-center shadow-lg p-5 ${className}`}>
+        <form onSubmit={handleFormSubmit} 
+        className={cn(
+            "flex flex-col justify-center items-center shadow-lg p-5",
+            className
+        )}
+        >
             {React.Children.map(children, (child) => {
                 if (React.isValidElement(child) && child.props.name) {
                     return React.cloneElement(child as ReactElement<InputProps>, {

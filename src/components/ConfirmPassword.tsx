@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useDebounce from '../utils/useDebounce';
 import { passwordRequirements, validatePassword } from '../utils/passwordValidation';
 
-interface PasswordProps {
+export interface CPasswordProps {
   name: string;
   label: string;
   hintText: string;
@@ -10,10 +10,10 @@ interface PasswordProps {
   onInputChange: (name: string, value: string) => void;
   onError: (name: string, error: string) => void;
   isSubmitted: boolean;
-  required?: boolean; // Add required prop
+  required?: boolean; 
 }
 
-const PasswordInput: React.FC<PasswordProps> = ({
+const ConfirmPasswordInput: React.FC<CPasswordProps> = ({
   name,
   hintText,
   className = '',
@@ -21,14 +21,14 @@ const PasswordInput: React.FC<PasswordProps> = ({
   onError,
   label,
   isSubmitted,
-  required = false, // Default to false if not provided
+  required = false, 
 }) => {
   const [state, setState] = useState({
     value: '',
     confirmValue: '',
     showTooltip: false,
     isFocused: false,
-    isConfirmFocused: false, // Added state for confirm password focus
+    isConfirmFocused: false, 
   });
 
   const { value, confirmValue, showTooltip, isFocused, isConfirmFocused } = state;
@@ -38,7 +38,7 @@ const PasswordInput: React.FC<PasswordProps> = ({
   const passwordsMatch = debouncedValue === debouncedConfirmValue;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement; // Ensuring it is treated as an HTMLInputElement
+    const target = e.target as HTMLInputElement; 
   const newValue = target.value;
     setState(prev => ({ ...prev, value: newValue }));
     onInputChange(name, newValue);
@@ -91,7 +91,7 @@ const PasswordInput: React.FC<PasswordProps> = ({
           } focus:border-blue-500 focus:ring focus:ring-blue-200`}
           onFocus={() => setState(prev => ({ ...prev, isFocused: true }))}
           onBlur={handleBlur}
-          required={required} // Set required attribute on the input element
+          required={required}
         />
         {isFocused && (
           <span
@@ -135,7 +135,7 @@ const PasswordInput: React.FC<PasswordProps> = ({
           type="password"
           value={confirmValue}
           onChange={handleConfirmChange}
-          placeholder="Confirm your password"
+          placeholder={`confirm your ${hintText}`}
           className={`p-2 border rounded-md transition duration-300 ease-in-out w-full pr-10 ${
             isConfirmFocused ? (passwordsMatch ? 'border-gray-500' : 'border-gray-300 focus:ring-red-400') : 'border-gray-300'
           } focus:border-blue-500 focus:ring focus:ring-blue-200`}
@@ -156,4 +156,4 @@ const PasswordInput: React.FC<PasswordProps> = ({
   );
 };
 
-export default PasswordInput;
+export default ConfirmPasswordInput;
