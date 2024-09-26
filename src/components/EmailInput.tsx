@@ -46,27 +46,24 @@ const EmailInput: React.FC<EmailInputProps> = ({
     }, [debouncedValue, name, validationRules]);
 
     return (
-        <div className="relative mb-4 flex-col items-start text-left">
+        <div className="relative mb-2 flex-col items-start text-left">
             <label className={`block mb-1 font-semibold`}>
                 {label} {required && <span className="text-red-500">*</span>}
             </label>
-            <div className='flex-col'>
+            <div className='flex-col '>
                 <input
                     type="email"
                     value={inputState.value}
                     onChange={handleChange}
                     placeholder={hintText}
-                    className={cn(
-                        'p-2 border rounded-md transition duration-300 ease-in-out',
-                        inputState.error ? 'border-red-500 focus:ring focus:ring-red-600' : 'border-gray-500',
-                        'focus:border-blue-500 focus:ring focus:ring-blue-200',
-                        className
-                    )}
+                    className={`p-2 border rounded-md transition duration-300 ease-in-out 
+                        ${inputState.error ? 'border-red-500 focus:ring focus:ring-red-600' : 'border-gray-500'} 
+                        focus:border-blue-500 focus:ring focus:ring-blue-200 ${className}`
+                    }
+                    
                     
                 />
-                <div>
-                    {inputState.error && <span className="text-red-500 text-xs mt-2">{inputState.error}</span>}
-                </div>
+                
             </div>
         </div>
     );

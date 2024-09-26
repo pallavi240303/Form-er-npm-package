@@ -52,12 +52,11 @@ const TextInput: React.FC<TextInputProps> = ({
                     value={inputState.value}
                     onChange={handleChange}
                     placeholder={hintText}
-                    className={cn(
-                        "p-2 border rounded-md transition duration-300 ease-in-out",
-                        className,
-                        inputState.error ? "border-red-500 focus:ring focus:ring-red-600" : "border-gray-500",
-                        "focus:border-blue-500 focus:ring focus:ring-blue-200"
-                    )}
+                    className={`p-2 border rounded-md transition duration-300 ease-in-out 
+                        ${className} 
+                        ${inputState.error ? 'border-red-500 focus:ring focus:ring-red-600' : 'border-gray-500'} 
+                        focus:border-blue-500 focus:ring focus:ring-blue-200`}
+                    
                     
                 />
                 <div>

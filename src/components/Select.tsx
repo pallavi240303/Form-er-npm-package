@@ -30,12 +30,10 @@ const Select: React.FC<SelectProps> = ({
                 name={name}
                 value={value}
                 onChange={(e) => onChange(name, e.target.value)}
-                className={cn(
-                    "w-full px-4 py-2 border rounded-lg transition-colors duration-300 ease-in-out",
-                    error ? "border-red-500" : "border-gray-300",
-                    "focus:border-blue-500 focus:ring focus:ring-blue-300 outline-none",
-                    className
-                )}
+                className={`w-full px-4 py-2 border rounded-lg transition-colors duration-300 ease-in-out 
+                    ${error ? 'border-red-500' : 'border-gray-300'} 
+                    focus:border-blue-500 focus:ring focus:ring-blue-300 outline-none ${className}`}
+                
                 aria-invalid={!!error}
             >
                 {options.map((option) => (

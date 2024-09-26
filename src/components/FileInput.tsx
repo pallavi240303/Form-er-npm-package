@@ -83,12 +83,10 @@ const FileInput: React.FC<FileInputProps> = ({
                 {label} {required && <span className="text-red-500">*</span>}
             </label>
             <div
-                className={cn(
-                    "relative w-full p-4 border border-dashed rounded-lg transition-colors duration-300 ease-in-out",
-                    error ? "border-red-500" : "border-gray-300",
-                    "focus-within:border-blue-500 focus-within:ring focus-within:ring-blue-300",
-                    className
-                )}
+                className={`relative w-full p-4 border border-dashed rounded-lg transition-colors duration-300 ease-in-out 
+                  ${error ? 'border-red-500' : 'border-gray-300'} 
+                  focus-within:border-blue-500 focus-within:ring focus-within:ring-blue-300 ${className}`}
+              
                 style={style}
             >
                 <input

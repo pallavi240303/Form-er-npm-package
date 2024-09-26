@@ -61,33 +61,25 @@ const Form: React.FC<FormProps> = ({ onSubmit, children, className = '' }) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit} 
-        className={cn(
-            "flex flex-col justify-center items-center shadow-lg p-5",
-            className
-        )}
-        >
+        <form onSubmit={handleFormSubmit} className={`flex flex-col justify-center items-center shadow-lg p-5 ${className}`}>
             {React.Children.map(children, (child) => {
                 if (React.isValidElement(child) && child.props.name) {
-                    return React.cloneElement(child as ReactElement<InputProps>, {
-                        onInputChange: handleInputChange,
-                        onError: handleError,
-                        error: errors[child.props.name] || '',
-                        isSubmitted,
-                    });
+                    const inputError = errors[child.props.name] || '';
+                    return (
+                        <div className="w-full mb-2"> 
+                            {React.cloneElement(child as ReactElement<InputProps>, {
+                                onInputChange: handleInputChange,
+                                onError: handleError,
+                                error: inputError,
+                                isSubmitted,
+                            })}
+                            {inputError && <div className="text-red-500 text-xs mt-0">{inputError}</div>} 
+                        </div>
+                    );
                 }
                 return child;
             })}
 
-            {isSubmitted && Object.keys(errors).length > 0 && (
-                <div className={`text-red-500 text-xs mt-2`}>
-                    {Object.keys(errors).map((key) => (
-                        <div key={key}>
-                            {errors[key]}
-                        </div>
-                    ))}
-                </div>
-            )}
         </form>
     );
 };

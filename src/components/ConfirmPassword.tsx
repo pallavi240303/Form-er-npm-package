@@ -75,7 +75,7 @@ const ConfirmPasswordInput: React.FC<CPasswordProps> = ({
   }, [debouncedValue, isSubmitted, allConditionsMet, name, onError, value, required]);
 
   return (
-    <div className="mb-4 text-left">
+    <div className="mb-0 text-left">
       {/* Password Input */}
       <div className="relative mb-4">
         <label className="block mb-1 font-semibold">
