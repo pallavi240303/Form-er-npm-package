@@ -34,6 +34,7 @@ npm install @pk2420/formz
 ```react
    import { Button, ConfirmPassword, EmailInput, Form, CheckBox, FileInput, PasswordInput, Select, TextInput } from '@pk2420/formz';
 import React, { useState } from 'react';
+import "@pk2420/formz/dist/index.css";
 
 const App = () => {
     const [formData, setFormData] = useState<{
@@ -98,7 +99,7 @@ const App = () => {
                 />
                 <PasswordInput
                     name='password'
-                    label='Old username'
+                    label='Old Password'
                     hintText='Enter your old Password'
                     required={true}
                     onInputChange={handleChange}
