@@ -32,7 +32,7 @@ npm install @pk2420/formz
 ## Usage
 
 ```react
-   import { Button, ConfirmPassword, EmailInput, Form, CheckBox, FileInput, PasswordInput, Select, TextInput } from '@pk2420/formz';
+import { Button, ConfirmPassword, EmailInput, Form, CheckBox, FileInput, PasswordInput, Select, TextInput } from '@pk2420/formz';
 import React, { useState } from 'react';
 import "@pk2420/formz/dist/index.css";
 
@@ -53,19 +53,18 @@ const App = () => {
 
     const handleChange = (name: string, value: any) => {
         setFormData(prevState => {
-            if (Array.isArray(prevState.selectedOptions)) {
+            if (name === 'checkboxOptions') {
                 const selectedOptions = prevState.selectedOptions.includes(value)
                     ? prevState.selectedOptions.filter(option => option !== value)
                     : [...prevState.selectedOptions, value];
-                
                 return { ...prevState, selectedOptions };
-            }
-
-            if (name === 'fileInput') {
+            } else if (name === 'selectInput') {
+                return { ...prevState, selectedValue: value };
+            } else if (name === 'fileInput') {
                 return { ...prevState, selectedFile: value };
+            } else {
+                return { ...prevState, [name]: value };
             }
-
-            return { ...prevState, [name]: value };
         });
     };
 
@@ -107,7 +106,7 @@ const App = () => {
                     onError={() => {}} 
                 />
                 <ConfirmPassword
-                    name="password"
+                    name="confirmPassword"
                     label="Password"
                     hintText="Enter your password"
                     required={true}
